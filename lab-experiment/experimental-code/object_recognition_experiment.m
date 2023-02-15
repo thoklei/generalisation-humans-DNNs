@@ -8,6 +8,9 @@
 % It has been modified extensively by Robert Geirhos to fit the 
 % experiment described above.
 
+% adding dependency (iShow lib and code to read yaml files)
+addpath('../dependencies/') 
+
 
 function object_recognition_experiment()
 %% Parameters

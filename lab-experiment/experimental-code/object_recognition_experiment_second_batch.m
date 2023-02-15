@@ -11,6 +11,12 @@
 
 function object_recognition_experiment()
 
+% adding dependency (iShow lib and code to read yaml files)
+addpath('../dependencies/YAMLMatlab_0/')
+addpath(genpath('../dependencies/ishow/'))
+
+path
+
 exp_name = input('Enter experiment_name: ','s');
 
 %% Parameters
@@ -40,8 +46,8 @@ end
 %TODO check for saving data control - session numbers!
 
 
-% use absolute paths to the images in carlos' home folder. 
-source_folder = '/home/data/carlos/object_recognition/stimuli/';  % path to /project/stimuli/ folder
+% use absolute paths to the images in Thomas' stimuli folder. 
+source_folder = '/Users/thomas/Projects/brains_vs_dnns/stimuli/';  % path to /project/stimuli/ folder
 
 response_im_path = fullfile(source_folder, 'response_screens/');
 

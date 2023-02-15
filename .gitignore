@@ -110,3 +110,12 @@ venv.bak/
 
 
 # End of https://www.gitignore.io/api/python
+
+# ignore .DS_Store files on macOS
+*.DS_Store
+
+# ignore matlab autosave files
+*.asv
+
+# ignore folder with dependencies for lab experiments
+lab-experiment/dependencies/*
