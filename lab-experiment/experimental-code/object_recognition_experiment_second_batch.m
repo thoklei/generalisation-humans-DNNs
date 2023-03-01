@@ -14,6 +14,7 @@ function object_recognition_experiment()
 % adding dependency (iShow lib and code to read yaml files)
 addpath('../dependencies/YAMLMatlab_0/')
 addpath(genpath('../dependencies/ishow/'))
+addpath('../helper-functions/')
 
 path
 
@@ -37,7 +38,7 @@ visual_feedback = params.visual_feedback;
 
 %% Set file paths and open file to write to; ask for subject code
 
-data_path = fullfile(filepathToHere, sprintf('../../raw-data/%s/', num2str(params.experiment_name)));
+data_path = fullfile(filepathToHere, sprintf('../../new-raw-data/%s/', num2str(params.experiment_name)));
 
 if ~exist(data_path, 'dir')
     mkdir(data_path);
@@ -47,7 +48,7 @@ end
 
 
 % use absolute paths to the images in Thomas' stimuli folder. 
-source_folder = '/Users/thomas/Projects/brains_vs_dnns/stimuli/';  % path to /project/stimuli/ folder
+source_folder = '/home/thomask/Projects/stimuli/';  % path to /project/stimuli/ folder
 
 response_im_path = fullfile(source_folder, 'response_screens/');
 

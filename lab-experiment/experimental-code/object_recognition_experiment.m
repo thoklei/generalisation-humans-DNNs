@@ -34,7 +34,7 @@ visual_feedback = params.visual_feedback;
 
 %% Set file paths and open file to write to; ask for subject code
 
-data_path = fullfile(filepathToHere, sprintf('../../raw-data/%s/', num2str(params.experiment_name)));
+data_path = fullfile(filepathToHere, sprintf('../../new-raw-data/%s/', num2str(params.experiment_name)));
 
 if ~exist(data_path, 'dir')
     mkdir(data_path);
