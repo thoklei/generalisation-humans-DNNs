@@ -14,6 +14,7 @@ function object_recognition_experiment()
 % adding dependency (iShow lib and code to read yaml files)
 addpath('../dependencies/YAMLMatlab_0/')
 addpath(genpath('../dependencies/ishow/'))
+addpath('../helper-functions/')
 
 path
 
@@ -37,7 +38,7 @@ visual_feedback = params.visual_feedback;
 
 %% Set file paths and open file to write to; ask for subject code
 
-data_path = fullfile(filepathToHere, sprintf('../../raw-data/%s/', num2str(params.experiment_name)));
+data_path = fullfile(filepathToHere, sprintf('../../new-raw-data/%s/', num2str(params.experiment_name)));
 
 if ~exist(data_path, 'dir')
     mkdir(data_path);
@@ -47,7 +48,7 @@ end
 
 
 % use absolute paths to the images in Thomas' stimuli folder. 
-source_folder = '/Users/thomas/Projects/brains_vs_dnns/stimuli/';  % path to /project/stimuli/ folder
+source_folder = '/home/thomask/Projects/brains_vs_dnns/stimuli/';  % path to /project/stimuli/ folder
 
 response_im_path = fullfile(source_folder, 'response_screens/');
 
@@ -206,8 +207,14 @@ n_frames_fixate = ceil(params.ms_fixation * win.framerate / 1000);
 n_frames_feedback = ceil(params.ms_feedback * win.framerate / 1000);
 n_frames_mask = ceil(params.ms_mask * win.framerate / 1000);
 
+disp(['win framerate: ', num2str(win.framerate), ' n_frames_stim: ', num2str(n_frames_stim)])
+
 % stimulus ramp:
-stim_ramp = ones(n_frames_stim);  
+% Thomas added mask ramp, there was a bug before - actually, both ramps are
+% unnecessary, we could just pass 1 directly, but keeping this in case we 
+% do actually want to ramp the contrast up at some point.
+stim_ramp = ones(1, n_frames_stim);
+mask_ramp = ones(1, n_frames_mask);
 
 
 % Position in the middle - no need to change if number of response categories
@@ -280,18 +287,23 @@ try
             image_fname = image_fname{(1)};
         end
         
+        disp(['image_fname: ', image_fname]);
+        
         
         % load image:
         fname = fullfile(image_path, image_fname);
         
-        image_data = strsplit(fname, '_');
-        condition_index = 5;
-        category_index = 6;
-                
+        image_data = strsplit(image_fname, '_');
+        
+        % Thomas changed this - taking only the filename, then indexing
+        % from 0 yields correct condition and category
+        condition_index = 4;
+        category_index = 5;
+                        
         if (length(image_data) < 6) && (~ expt_has_sessions)
            error('It seems the experiment actually has a session number! Try restarting it again WITH entering a session number.'); 
         elseif length(image_data) < 6
-           error('Image path cannot be split by _ in many parts as it should be the case.');
+           error('Image path cannot be split by _ in as many parts as it should be the case.');
         end
         
         condition = image_data(condition_index);
@@ -321,7 +333,6 @@ try
         
         
         %% stimulus presentation.
-        
         for itic = 1 : n_frames_stim
             
             % centered image:
@@ -342,7 +353,7 @@ try
         %@R
         for itic = 1 : n_frames_mask
             
-            win.draw(mask_texture, stim_ramp(itic), ...
+            win.draw(mask_texture, mask_ramp(itic), ...
                 surround_rect_center);
             
             Screen('DrawingFinished', win.h);
