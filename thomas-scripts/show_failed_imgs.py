@@ -52,19 +52,6 @@ def main(args):
     # download all images where subjects gave wrong responses
     download_wrong_images([img for _, _, img in wrongs], args.img_location, args.imagenet_path)
 
-    # make overview plot of wrongly labelled images
-    ncols = 5
-    nrows = int(np.ceil(len(wrongs) // ncols))
-
-    fig, ax = plt.subplots(nrows, ncols)
-    ax = ax.flatten()
-    for idx, (response, label, img_path) in enumerate(wrongs):
-        ax[idx] = plt.imshow(get_img(args.img_location, img_path))
-        ax[idx].set_title(f"{response} / {label}")
-
-    plt.show()
-    plt.close()
-
 
 if __name__ == "__main__":
     parser = ArgumentParser()
